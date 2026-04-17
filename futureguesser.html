@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Want to know your future?</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #b8b4ab;
+      --panel: #d5d1c9;
+      --surface: #c8c4bd;
+      --border: #25211d;
+      --text: #111;
+      --muted: #403c37;
+      --shadow: rgba(0, 0, 0, 0.18);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at top, #f8f5f1 0%, #d7d3ca 35%, var(--bg) 100%);
+      color: var(--text);
+      display: grid;
+      place-items: center;
+      padding: 2rem;
+    }
+
+    .stage {
+      position: relative;
+      width: min(960px, 100%);
+      padding: 3rem 2.5rem 2.5rem;
+      background: var(--panel);
+      border: 2px solid var(--border);
+      border-radius: 44px;
+      box-shadow: 0 24px 60px var(--shadow);
+      overflow: hidden;
+    }
+    .stage::before,
+    .stage::after {
+      content: '?';
+      position: absolute;
+      font-size: 13rem;
+      font-weight: 900;
+      color: rgba(3, 3, 3, 0.08);
+      text-shadow: none;
+      top: 8%;
+      pointer-events: none;
+    }
+
+    .stage::before {
+      left: 1.5rem;
+      transform: rotate(-14deg);
+    }
+
+    .stage::after {
+      right: 1.5rem;
+      top: 28%;
+      transform: rotate(10deg);
+    }
+
+    .qmark {
+      position: absolute;
+      color: #2929291a;
+      font-size: 12rem;
+      font-weight: 900;
+      pointer-events: none;
+      line-height: 0.92;
+      text-shadow: none;
+    }
+    .content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+
+    .hero-title {
+      margin: 0;
+      font-size: clamp(2.75rem, 4.5vw, 5rem);
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+      font-weight: 900;
+      color: #111;
+    }
+
+    .subtitle {
+      margin: 1.25rem auto 2.2rem;
+      max-width: 44rem;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.8;
+    }
+
+    .search-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin: 0 auto 2.5rem;
+      max-width: 44rem;
+      background: #e9e3e3;
+      border: 2px solid var(--border);
+      border-radius: 999px;
+      padding: 1rem 1.3rem;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    .search-input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      color: var(--text);
+      font-size: 1.05rem;
+      outline: none;
+      padding: 0.15rem 0;
+    }
+
+    .search-input::placeholder {
+      color: #7d7a76;
+    }
+
+    .result-label {
+      margin: 0 auto 1rem;
+      font-size: 1rem;
+      color: var(--text);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .result-box {
+      margin: 0 auto;
+      width: min(100%, 42rem);
+      min-height: 12rem;
+      border-radius: 32px;
+      border: 4px solid var(--border);
+      background: #ebe8e3;
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+      display: grid;
+      place-items: center;
+      color: #2d2a28;
+      font-size: 1.1rem;
+      padding: 1.75rem;
+      text-align: center;
+    }
+
+    .result-box span {
+      display: block;
+      max-width: 32rem;
+    }
+
+    .wave {
+      display: inline-block;
+      white-space: pre-wrap;
+      letter-spacing: -0.01em;
+    }
+
+    .wave span {
+      display: inline-block;
+      animation: wave 0.7s infinite ease-in-out;
+    }
+
+    @keyframes wave {
+      0%, 60%, 100% {
+        transform: translateY(0);
+      }
+
+      30% {
+        transform: translateY(-0.35rem);
+      }
+    }
+
+    @media (max-width: 720px) {
+      .stage {
+        padding: 2.2rem 1.4rem 1.6rem;
+      }
+
+      .hero-title {
+        font-size: clamp(2.25rem, 8vw, 3.5rem);
+      }
+
+      .search-wrap {
+        padding: 0.85rem 1rem;
+      }
+
+      .subtitle,
+      .result-box {
+        font-size: 0.95rem;
+      }
+
+      .result-box {
+        min-height: 10rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="stage">
+    </div>
+    <div class="content">
+      <h1 class="hero-title">WHAT WILL YOUR FUTURE WILL BE?</h1>
+      <p class="subtitle">Type your name and you’ll know what awaits you in the future.</p>
+
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input class="search-input" type="text" placeholder="Enter your name" aria-label="Your name" id="nameInput" />
+      </div>
+
+      <p class="result-label">Your result is:</p>
+      <div class="result-box">
+        <span id="resultSpan">Awaiting for your name to reveal the mystery...</span>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const fortunePredictions = [
+      "you will trip over nothing in public and pretend it was part of your personality.",
+      "someone will develop a crush on you but act like they don't even know your name.",
+      "you'll say \"just one episode\" and suddenly it's 3AM.",
+      "a random stranger will compliment you and you'll think about it for 3 years.",
+      "you'll laugh at the wrong moment and make things awkward… again.",
+      "your phone will fall directly on your face while you're lying down. Classic.",
+      "you'll find money in your pocket right after being broke for dramatic effect.",
+      "someone you forgot about will suddenly message you like \"hey 😏\"",
+      "you'll become obsessed with a song and play it until it loses all meaning.",
+      "you'll almost text the wrong person something VERY dangerous.",
+      "your love life will briefly feel like a rom-com… then plot twist 💀",
+      "you'll glow up randomly and people will act like they knew you all along.",
+      "you'll laugh at your own joke harder than anyone else.",
+      "someone will stalk your profile from 2016. Yes, that one post.",
+      "you'll make a great decision… immediately followed by a questionable one.",
+      "you'll crave something specific and not find it anywhere. Pain.",
+      "you'll accidentally overhear drama that has nothing to do with you but now you're invested.",
+      "your WiFi will betray you at the worst possible moment.",
+      "you'll try to fix your sleep schedule… for exactly one day.",
+      "someone will copy your vibe but not your personality 💅",
+      "you'll say \"I'm saving money\" and then proceed to not.",
+      "you'll randomly remember something embarrassing from years ago and physically react.",
+      "you'll give amazing advice that you yourself will not follow.",
+      "a minor inconvenience will feel like a personal attack.",
+      "you'll win something small and act like you just conquered life.",
+      "you'll forget why you walked into a room. Repeatedly.",
+      "someone will misunderstand your joke and now you're the problem.",
+      "you'll have a deep life realization… in the shower.",
+      "you'll try to be productive but end up reorganizing something unnecessary.",
+      "you'll meet someone who matches your energy… lowkey dangerous 👀",
+      "your playlist will reflect your emotions a little too accurately.",
+      "you'll say \"I don't care\" while clearly caring.",
+      "you'll hype yourself up and actually do something impressive.",
+      "you'll get random motivation at midnight.",
+      "you'll lose something, panic, then find it in the most obvious place.",
+      "someone will think you're intimidating… you're just quiet 😭",
+      "you'll laugh so hard you can't explain why.",
+      "you'll have a main character moment walking alone with music.",
+      "you'll avoid someone and then accidentally run into them.",
+      "you'll make someone's day without even realizing it 🫶",
+      "you'll almost fall in love… or at least romanticize someone a little too much.",
+      "you'll say \"this is the last time\" and it won't be.",
+      "you'll have unexpected good luck right when you need it most 🍀",
+      "you'll doubt yourself and then prove yourself wrong.",
+      "you'll survive everything that stressed you out (shocking, I know).",
+      "You’ll wake up tired even after a full sleep.",
+      "Your alarm will ring during your best dream. Betrayal.",
+      "You’ll check your phone… and regret what you just saw.",
+      "Someone will leave you on read after replying instantly before.",
+      "You’ll overthink something that didn’t even matter.",
+      "You’ll say the wrong thing at the worst time.",
+      "Your confidence will disappear exactly when you need it most.",
+      "You’ll forget something important and only remember too late.",
+      "You’ll feel awkward for no reason… but it feels very real.",
+      "You’ll replay an embarrassing moment like it just happened yesterday.",
+      "Someone will disappoint you, and you lowkey expected better.",
+      "You’ll compare yourself to others and ruin your own mood.",
+      "You’ll plan something and it won’t go how you imagined.",
+      "You’ll get excited about something… and it gets canceled.",
+      "You’ll feel left out even when you’re technically included.",
+      "Someone will misunderstand your intentions completely.",
+      "You’ll trust someone a little too much.",
+      "You’ll feel like you’re trying harder than everyone else.",
+      "You’ll second-guess a decision you already made.",
+      "You’ll lose motivation halfway through something important.",
+      "Your love life will feel confusing for no reason at all.",
+      "Someone will give mixed signals like it’s a full-time job.",
+      "You’ll miss someone you shouldn’t even be thinking about.",
+      "You’ll almost confess something… then back out last second.",
+      "You’ll wonder “what if” more than you should.",
+      "Someone will come back just to mess up your peace.",
+      "You’ll realize not everyone has the same intentions as you.",
+      "You’ll get attached faster than you planned.",
+      "You’ll pretend you don’t care when you actually do.",
+      "You’ll feel like you’re not enough… even when you are.",
+      "You’ll procrastinate and stress at the same time.",
+      "You’ll feel unproductive but too tired to fix it.",
+      "You’ll start something and not finish it.",
+      "You’ll scroll instead of doing what you need to do.",
+      "You’ll doubt your own abilities for no valid reason.",
+      "You’ll feel stuck even though you’re actually moving forward.",
+      "You’ll want change but fear it at the same time.",
+      "You’ll care too much about what others think.",
+      "You’ll have a bad day that started from one small thing.",
+      "You’ll be hard on yourself when you didn’t need to be."
+    ];
+
+    const loadingLines = [
+      'Consulting the ancient toaster…',
+      'Asking the magic 8-ball for career advice…',
+      'Stirring the crystal coffee grounds…',
+      'Polishing the question marks to a high shine…',
+      'Letting the fortune cookies warm up…',
+      'Waiting for the stars to finish their tea…',
+      'Opening a portal to the land of maybe…',
+      'Checking if your future is ready yet…',
+      'Shaking the digital magic 8-ball…',
+      'Waiting for the cosmic microwave background to cool down…',
+      'Consulting the oracle of the internet…',
+      'Teaching pigeons to carry your destiny…',
+      'Convincing the clouds to spill their secrets…',
+      'Negotiating with the universe\'s comedy writers…',
+      'Defrosting the prophecy machine…',
+      'Asking a rubber duck for existential guidance…',
+      'Translating destiny from interpretive dance…',
+      'Bribing the time gods with imaginary snacks…',
+      'Recalibrating the funny bone detector…',
+      'Consulting the mystical search engine…',
+      'Downloading fortune from the cloud…',
+      'Asking the houseplants what they know…',
+    ];
+
+    const input = document.getElementById('nameInput');
+    const resultSpan = document.getElementById('resultSpan');
+    let loadingTimer = null;
+
+    function makeWaveText(text) {
+      return text.split('').map((char, index) => {
+        const delay = (index * 0.03).toFixed(2);
+        const displayChar = char === ' ' ? '&nbsp;' : char;
+        return `<span style="animation-delay:${delay}s">${displayChar}</span>`;
+      }).join('');
+    }
+
+    function showLoadingDialogue() {
+      const line = loadingLines[Math.floor(Math.random() * loadingLines.length)];
+      resultSpan.innerHTML = `<span class="wave">${makeWaveText(line)}</span>`;
+    }
+
+    function revealFortune(name) {
+      const index = Math.floor(Math.random() * fortunePredictions.length);
+      resultSpan.textContent = `${name}, ${fortunePredictions[index]}`;
+    }
+
+    input.addEventListener('keydown', function(event) {
+      if (event.key !== 'Enter') return;
+      event.preventDefault();
+      const name = input.value.trim();
+      if (!name) {
+        resultSpan.textContent = 'Type your name first, curious traveler.';
+        return;
+      }
+
+      showLoadingDialogue();
+      clearTimeout(loadingTimer);
+      loadingTimer = setTimeout(() => revealFortune(name), 1400);
+    });
+
+    input.addEventListener('focus', function() {
+      if (!input.value.trim()) {
+        resultSpan.textContent = 'Ready when you are. Press Enter after typing your name.';
+      }
+    });
+  </script>
+</body>
+</html>
+
